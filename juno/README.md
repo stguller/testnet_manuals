@@ -12,7 +12,7 @@
   <img height="100" height="auto" src="https://user-images.githubusercontent.com/50621007/181202199-ec65c529-8f92-4083-9841-77e48e47ba03.png">
 </p>
 
-# juno node setup for testnet — uni-3
+# juno node setup for testnet — uni-5
 
 Official documentation:
 >- [Validator setup instructions](https://github.com/juno-Labs/testnet)
