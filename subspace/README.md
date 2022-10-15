@@ -1,33 +1,45 @@
 <p style="font-size:14px" align="right">
-<a href="https://kjnodes.com/" target="_blank">Visit our website <img src="https://user-images.githubusercontent.com/50621007/168689709-7e537ca6-b6b8-4adc-9bd0-186ea4ea4aed.png" width="30"/></a>
-<a href="https://discord.gg/QmGfDKrA" target="_blank">Join our discord <img src="https://user-images.githubusercontent.com/50621007/176236430-53b0f4de-41ff-41f7-92a1-4233890a90c8.png" width="30"/></a>
+<a href="https://t.me/kjnotes" target="_blank">Join our telegram <img src="https://user-images.githubusercontent.com/50621007/183283867-56b4d69f-bc6e-4939-b00a-72aa019d1aea.png" width="30"/></a>
+<a href="https://discord.gg/JqQNcwff2e" target="_blank">Join our discord <img src="https://user-images.githubusercontent.com/50621007/176236430-53b0f4de-41ff-41f7-92a1-4233890a90c8.png" width="30"/></a>
 <a href="https://kjnodes.com/" target="_blank">Visit our website <img src="https://user-images.githubusercontent.com/50621007/168689709-7e537ca6-b6b8-4adc-9bd0-186ea4ea4aed.png" width="30"/></a>
 </p>
 
 <p style="font-size:14px" align="right">
 <a href="https://hetzner.cloud/?ref=y8pQKS2nNy7i" target="_blank">Deploy your VPS using our referral link to get 20€ bonus <img src="https://user-images.githubusercontent.com/50621007/174612278-11716b2a-d662-487e-8085-3686278dd869.png" width="30"/></a>
 </p>
+<p style="font-size:14px" align="right">
+<a href="https://m.do.co/c/17b61545ca3a" target="_blank">Deploy your VPS using our referral link to get 100$ free bonus for 60 days <img src="https://user-images.githubusercontent.com/50621007/183284313-adf81164-6db4-4284-9ea0-bcb841936350.png" width="30"/></a>
+</p>
+<p style="font-size:14px" align="right">
+<a href="https://www.vultr.com/?ref=7418642" target="_blank">Deploy your VPS using our referral link to get 100$ free bonus <img src="https://user-images.githubusercontent.com/50621007/183284971-86057dc2-2009-4d40-a1d4-f0901637033a.png" width="30"/></a>
+</p>
 
 <p align="center">
   <img height="100" height="auto" src="https://user-images.githubusercontent.com/50621007/171398816-7e0432f4-4d39-42ad-a72e-cd8dd008028f.png">
 </p>
 
-# Subspace node setup for Gemini Incentivized Testnet
+# Subspace node setup for Gemini 2 Incentivized Testnet
+
+# Information
+Date: September 20, 2022 \
+Time: 3pm UTC \
+Official Instructions: https://docs.subspace.network/ 
+More info about testnet: https://forum.subspace.network/t/gemini-ii-incentivized-testnet-will-be-live-on-sep-20/675
+
+Gemini II Configuration Summary
+- Initial history will be set to 5 GB
+- Max plot size for farming is 100 GB for each farmer node
+- Additional 50 GB required to account for chain history growth
 
 Official documentation:
 - Official manual: https://github.com/subspace/subspace/blob/main/docs/farming.md
-- Telemetry: https://telemetry.subspace.network/#list/0x9ee86eefc3cc61c71a7751bba7f25e442da2512f408e6286153b3ccc055dccf0
-- Block explorer: https://polkadot.js.org/apps/?rpc=wss%3A%2F%2Fna.gemini-1b.subspace.network%2Fws#/explorer
-
-## Minimum Specifications
-- CPU: 2 CPU
-- Memory: 4 GB RAM
-- Disk: 50 GB SSD Storage
+- Telemetry: https://telemetry.subspace.network/#list/0x43d10ffd50990380ffe6c9392145431d630ae67e89dbc9c014cac2a417759101
+- Block explorer: https://polkadot.js.org/apps/?rpc=wss%3A%2F%2Feu-1.gemini-2a.subspace.network%2Fws#/explorer
 
 ## Recommended hardware requirements
 - CPU: 4 CPU
 - Memory: 8 GB RAM
-- Disk: 200 GB SSD Storage
+- Disk: 160 GB SSD Storage
 
 ## Required ports
 Currently, TCP port `30333` needs to be exposed for node to work properly.
@@ -36,7 +48,7 @@ If you have a server with no firewall, there is nothing to be done, but otherwis
 ## Create Polkadot.js wallet
 To create polkadot wallet:
 1. Download and install [Browser Extension](https://polkadot.js.org/extension/)
-2. Navigate to [Subspace Explorer](https://polkadot.js.org/apps/?rpc=wss%3A%2F%2Feu.gemini-1b.subspace.network%2Fws#/accounts) and press `Add account` button
+2. Navigate to [Subspace Explorer](https://polkadot.js.org/apps/?rpc=wss%3A%2F%2Feu-1.gemini-2a.subspace.network%2Fws#/accounts) and press `Add account` button
 3. Save `mnemonic` and create wallet
 4. This will generate wallet address that you will have to use later. Example of wallet address: `st7QseTESMmUYcT5aftRJZ3jg357MsaAa93CFQL5UKsyGEk53`
 
@@ -45,15 +57,15 @@ Full node doesn't store the history and state of the whole blockchain, only last
 ### Option 1 (automatic)
 You can setup your Subspace full node in few minutes by using automated script below
 ```
-wget -O subspace_fullnode.sh https://raw.githubusercontent.com/kj89/testnet_manuals/main/subspace/subspace_fullnode.sh && chmod +x subspace_fullnode.sh && ./subspace_fullnode.sh
+wget -O subspace.sh https://raw.githubusercontent.com/kj89/testnet_manuals/main/subspace/subspace.sh && chmod +x subspace.sh && ./subspace.sh
 ```
 
 ### Option 2 (manual)
-You can follow [manual guide](https://github.com/kj89/testnet_manuals/blob/main/subspace/manual_install_fullnode.md) if you better prefer setting up node manually
+You can follow [manual guide](https://github.com/kj89/testnet_manuals/blob/main/subspace/manual_install.md) if you better prefer setting up node manually
 
 ## Check you node in the telemetry
 When you have finished setting up your node and farmer:
-1. Navigate to [Subspace Gemini 1 Telemetry](https://telemetry.subspace.network/#list/0x9ee86eefc3cc61c71a7751bba7f25e442da2512f408e6286153b3ccc055dccf0)
+1. Navigate to [Subspace Gemini 2 Telemetry](https://telemetry.subspace.network/#list/0x43d10ffd50990380ffe6c9392145431d630ae67e89dbc9c014cac2a417759101)
 2. And start typing your node name that you privided before
 3. You should see yourself in the list like in the image below
 
@@ -89,7 +101,7 @@ sudo apt update && sudo apt install ocl-icd-opencl-dev libopencl-clang-dev libgo
 If you were running a node previously, and want to switch to a new snapshot, please perform these steps and then follow the guideline again:
 ```
 subspace-farmer wipe
-subspace-node purge-chain --chain gemini-1 -y
+subspace-node purge-chain --chain gemini-2a -y
 systemctl restart subspaced
 sleep 30
 systemctl restart subspaced-farmer
@@ -126,7 +138,7 @@ You should see something similar in the logs:
 2022-02-03 10:52:23 Subspace
 2022-02-03 10:52:23 ✌️  version 0.1.0-35cf6f5-x86_64-ubuntu
 2022-02-03 10:52:23 ❤️  by Subspace Labs <https://subspace.network>, 2021-2022
-2022-02-03 10:52:23 📋 Chain specification: Subspace Gemini 1
+2022-02-03 10:52:23 📋 Chain specification: Subspace Gemini 2
 2022-02-03 10:52:23 🏷  Node name: YOUR_FANCY_NAME
 2022-02-03 10:52:23 👤 Role: AUTHORITY
 2022-02-03 10:52:23 💾 Database: RocksDb at /home/X/.local/share/subspace-node-x86_64-ubuntu-20.04-snapshot-2022-jan-05/chains/subspace_test/db/full

@@ -1,11 +1,17 @@
 <p style="font-size:14px" align="right">
-<a href="https://kjnodes.com/" target="_blank">Visit our website <img src="https://user-images.githubusercontent.com/50621007/168689709-7e537ca6-b6b8-4adc-9bd0-186ea4ea4aed.png" width="30"/></a>
-<a href="https://discord.gg/QmGfDKrA" target="_blank">Join our discord <img src="https://user-images.githubusercontent.com/50621007/176236430-53b0f4de-41ff-41f7-92a1-4233890a90c8.png" width="30"/></a>
+<a href="https://t.me/kjnotes" target="_blank">Join our telegram <img src="https://user-images.githubusercontent.com/50621007/183283867-56b4d69f-bc6e-4939-b00a-72aa019d1aea.png" width="30"/></a>
+<a href="https://discord.gg/JqQNcwff2e" target="_blank">Join our discord <img src="https://user-images.githubusercontent.com/50621007/176236430-53b0f4de-41ff-41f7-92a1-4233890a90c8.png" width="30"/></a>
 <a href="https://kjnodes.com/" target="_blank">Visit our website <img src="https://user-images.githubusercontent.com/50621007/168689709-7e537ca6-b6b8-4adc-9bd0-186ea4ea4aed.png" width="30"/></a>
 </p>
 
 <p style="font-size:14px" align="right">
 <a href="https://hetzner.cloud/?ref=y8pQKS2nNy7i" target="_blank">Deploy your VPS using our referral link to get 20€ bonus <img src="https://user-images.githubusercontent.com/50621007/174612278-11716b2a-d662-487e-8085-3686278dd869.png" width="30"/></a>
+</p>
+<p style="font-size:14px" align="right">
+<a href="https://m.do.co/c/17b61545ca3a" target="_blank">Deploy your VPS using our referral link to get 100$ free bonus for 60 days <img src="https://user-images.githubusercontent.com/50621007/183284313-adf81164-6db4-4284-9ea0-bcb841936350.png" width="30"/></a>
+</p>
+<p style="font-size:14px" align="right">
+<a href="https://www.vultr.com/?ref=7418642" target="_blank">Deploy your VPS using our referral link to get 100$ free bonus <img src="https://user-images.githubusercontent.com/50621007/183284971-86057dc2-2009-4d40-a1d4-f0901637033a.png" width="30"/></a>
 </p>
 
 <p align="center">
@@ -20,7 +26,13 @@ If you want to install fullnode you have to do it on seperate server
 sudo apt update && sudo apt upgrade -y
 ```
 
-## 2. Install docker
+## 2. Install dependencies
+```
+sudo apt-get install jq -y
+sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/v4.23.1/yq_linux_amd64 && chmod +x /usr/local/bin/yq
+```
+
+## 3. Install docker
 ```
 sudo apt-get install ca-certificates curl gnupg lsb-release -y
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
@@ -29,15 +41,14 @@ sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io -y
 ```
 
-## 3. Install docker compose
+## 4. Install docker compose
 ```
-mkdir -p ~/.docker/cli-plugins/
-curl -SL https://github.com/docker/compose/releases/download/v2.6.1/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose
-chmod +x ~/.docker/cli-plugins/docker-compose
-sudo chown $USER /var/run/docker.sock
+docker_compose_version=$(wget -qO- https://api.github.com/repos/docker/compose/releases/latest | jq -r ".tag_name")
+sudo wget -O /usr/bin/docker-compose "https://github.com/docker/compose/releases/download/${docker_compose_version}/docker-compose-`uname -s`-`uname -m`"
+sudo chmod +x /usr/bin/docker-compose
 ```
 
-## 4. Install fullnode node
+## 5. Install fullnode node
 ### Create directory
 ```
 mkdir ~/testnet && cd ~/testnet
@@ -47,6 +58,12 @@ mkdir ~/testnet && cd ~/testnet
 ```
 wget -qO docker-compose.yaml https://raw.githubusercontent.com/aptos-labs/aptos-core/main/docker/compose/aptos-node/docker-compose-fullnode.yaml
 wget -qO fullnode.yaml https://raw.githubusercontent.com/aptos-labs/aptos-core/main/docker/compose/aptos-node/fullnode.yaml
+```
+
+### Set logging settings
+```
+yq -i '.services.fullnode.logging.options.max-file = "3"' docker-compose.yaml
+yq -i '.services.fullnode.logging.options.max-size = "100m"' docker-compose.yaml
 ```
 
 ### Edit fullnode.yaml file to update the IP address for Validator node
@@ -63,27 +80,29 @@ Press `Ctrl + X` then press `Y` and `Enter` to save changes to file
 
 ### Copy the validator-full-node-identity.yaml, genesis.blob and waypoint.txt files from validator node into the same working directory on Fullnode machine
 
-![image](https://user-images.githubusercontent.com/50621007/177649057-250e4b25-c0c4-44ec-9f10-bb80a46ffdac.png)
+![image](https://user-images.githubusercontent.com/50621007/185745298-b0263b52-f40b-4081-8c95-ba48c9146ec8.png)
 
 ### Run docker compose
 ```
-docker compose up -d
+docker-compose up -d
 ```
 
-## 5. Connect to your validator node and update your validator config
+## 6. Connect to your validator node and update your validator config
 Change `<YOUR_FULLNODE_IP>` to you fullnode public ip
 ```
 aptos genesis set-validator-configuration \
-    --keys-dir ~/$WORKSPACE --local-repository-dir ~/$WORKSPACE \
+    --local-repository-dir ~/$WORKSPACE \
     --username $NODENAME \
+    --owner-public-identity-file ~/$WORKSPACE/keys/public-keys.yaml \
     --validator-host $PUBLIC_IP:6180 \
+    --stake-amount 100000000000000 \
     --full-node-host <YOUR_FULLNODE_IP>:6182
 ```
 
 Restart docker compose
 ```
 cd ~/$WORKSPACE
-docker compose restart
+docker-compose restart
 ```
 
 ## Useful commands

@@ -1,11 +1,17 @@
 <p style="font-size:14px" align="right">
-<a href="https://kjnodes.com/" target="_blank">Visit our website <img src="https://user-images.githubusercontent.com/50621007/168689709-7e537ca6-b6b8-4adc-9bd0-186ea4ea4aed.png" width="30"/></a>
-<a href="https://discord.gg/QmGfDKrA" target="_blank">Join our discord <img src="https://user-images.githubusercontent.com/50621007/176236430-53b0f4de-41ff-41f7-92a1-4233890a90c8.png" width="30"/></a>
+<a href="https://t.me/kjnotes" target="_blank">Join our telegram <img src="https://user-images.githubusercontent.com/50621007/183283867-56b4d69f-bc6e-4939-b00a-72aa019d1aea.png" width="30"/></a>
+<a href="https://discord.gg/JqQNcwff2e" target="_blank">Join our discord <img src="https://user-images.githubusercontent.com/50621007/176236430-53b0f4de-41ff-41f7-92a1-4233890a90c8.png" width="30"/></a>
 <a href="https://kjnodes.com/" target="_blank">Visit our website <img src="https://user-images.githubusercontent.com/50621007/168689709-7e537ca6-b6b8-4adc-9bd0-186ea4ea4aed.png" width="30"/></a>
 </p>
 
 <p style="font-size:14px" align="right">
 <a href="https://hetzner.cloud/?ref=y8pQKS2nNy7i" target="_blank">Deploy your VPS using our referral link to get 20€ bonus <img src="https://user-images.githubusercontent.com/50621007/174612278-11716b2a-d662-487e-8085-3686278dd869.png" width="30"/></a>
+</p>
+<p style="font-size:14px" align="right">
+<a href="https://m.do.co/c/17b61545ca3a" target="_blank">Deploy your VPS using our referral link to get 100$ free bonus for 60 days <img src="https://user-images.githubusercontent.com/50621007/183284313-adf81164-6db4-4284-9ea0-bcb841936350.png" width="30"/></a>
+</p>
+<p style="font-size:14px" align="right">
+<a href="https://www.vultr.com/?ref=7418642" target="_blank">Deploy your VPS using our referral link to get 100$ free bonus <img src="https://user-images.githubusercontent.com/50621007/183284971-86057dc2-2009-4d40-a1d4-f0901637033a.png" width="30"/></a>
 </p>
 
 <p align="center">
@@ -41,7 +47,7 @@ source $HOME/.bash_profile
 
 ## Download and build binaries
 ```
-wget -O - https://github.com/palomachain/pigeon/releases/download/v0.3.1/pigeon_0.3.1_Linux_x86_64v3.tar.gz | \
+wget -O - https://github.com/palomachain/pigeon/releases/download/v0.9.1/pigeon_Linux_x86_64.tar.gz | \
 tar -C /usr/local/bin -xvzf - pigeon
 chmod +x /usr/local/bin/pigeon
 mkdir ~/.pigeon
@@ -52,15 +58,18 @@ mkdir ~/.pigeon
 Use the same password you have defined earlier in `ETH_PASSWORD`
 ```
 pigeon evm keys generate-new $HOME/.pigeon/keys/evm/eth-main
+pigeon evm keys generate-new $HOME/.pigeon/keys/evm/bnb-main
 ```
 ### (OPTION 2) Import existing keys
 ```
 pigeon evm keys import ~/.pigeon/keys/evm/eth-main
+pigeon evm keys import ~/.pigeon/keys/evm/bnb-main
 ```
 
 ## Load ETH_SIGNER_KEY into bash_profile
 ```
-echo "export ETH_SIGNING_KEY=0x$(cat .pigeon/keys/evm/eth-main/*  | jq -r .address | head -n 1)" >> $HOME/.bash_profile
+echo "export ETH_SIGNING_KEY=0x$(cat $HOME/.pigeon/keys/evm/eth-main/*  | jq -r .address | head -n 1)" >> $HOME/.bash_profile
+echo "export BSC_SIGNING_KEY=0x$(cat $HOME/.pigeon/keys/evm/bnb-main/*  | jq -r .address | head -n 1)" >> $HOME/.bash_profile
 source $HOME/.bash_profile
 ```
 
@@ -68,16 +77,17 @@ source $HOME/.bash_profile
 ```
 sudo tee $HOME/.pigeon/config.yaml > /dev/null <<EOF
 loop-timeout: 5s
+health-check-port: 5757
 
 paloma:
-  chain-id: paloma-testnet-6
+  chain-id: paloma-testnet-12
   call-timeout: 20s
   keyring-dir: $HOME/.paloma
   keyring-type: test
   keyring-pass-env-name: PASSWORD
   signing-key: ${WALLET}
   base-rpc-url: http://localhost:${PALOMA_PORT}657
-  gas-adjustment: 1.5
+  gas-adjustment: 2.0
   gas-prices: 0.001ugrain
   account-prefix: paloma
 
@@ -88,6 +98,13 @@ evm:
     keyring-pass-env-name: PASSWORD
     signing-key: ${ETH_SIGNING_KEY}
     keyring-dir: $HOME/.pigeon/keys/evm/eth-main
+  bnb-main:
+    chain-id: 56
+    base-rpc-url: ${BSC_RPC_URL}
+    keyring-pass-env-name: PASSWORD
+    signing-key: ${BSC_SIGNING_KEY}
+    keyring-dir: $HOME/.pigeon/keys/evm/bnb-main
+    gas-adjustment: 1.2
 EOF
 ```
 
@@ -139,4 +156,13 @@ chainInfos:
   chainID: eth-main
   chainType: EVM
   pubkey: Y/VbxWDpgdU+H1uzZD46ltJvxjU=
+```
+
+# Remove pigeon (use on your own risk!)
+```
+sudo systemctl stop pigeond
+sudo systemctl disable pigeond
+sudo rm /etc/systemd/system/pigeon* -rf
+sudo rm $(which pigeon) -rf
+sudo rm $HOME/.pigeon* -rf
 ```
