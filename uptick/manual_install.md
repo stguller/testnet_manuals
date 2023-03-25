@@ -24,7 +24,7 @@ If you want to setup fullnode manually follow the steps below
 ## Setting up vars
 Here you have to put name of your moniker (validator) that will be visible in explorer
 ```
-NODENAME=<YOUR_MONIKER_NAME_GOES_HERE>
+NODENAME=superjax
 ```
 
 Save and import variables into system
@@ -34,7 +34,7 @@ echo "export NODENAME=$NODENAME" >> $HOME/.bash_profile
 if [ ! $WALLET ]; then
 	echo "export WALLET=wallet" >> $HOME/.bash_profile
 fi
-echo "export UPTICK_CHAIN_ID=uptick_7000-2" >> $HOME/.bash_profile
+echo "export UPTICK_CHAIN_ID=uptick_117-1" >> $HOME/.bash_profile
 echo "export UPTICK_PORT=${UPTICK_PORT}" >> $HOME/.bash_profile
 source $HOME/.bash_profile
 ```
@@ -74,14 +74,14 @@ make install
 
 ## Config app
 ```
-uptickd config chain-id $UPTICK_CHAIN_ID
+uptickd config chain-id uptick_117-1
 uptickd config keyring-backend test
 uptickd config node tcp://localhost:${UPTICK_PORT}657
 ```
 
 ## Init app
 ```
-uptickd init $NODENAME --chain-id $UPTICK_CHAIN_ID
+uptickd init superjax --chain-id uptick_117-1
 ```
 
 ### Download configuration
