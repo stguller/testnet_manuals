@@ -18,7 +18,7 @@
   <img height="100" height="auto" src="https://user-images.githubusercontent.com/50621007/171044333-016e348d-1d96-4d00-8dce-f7de45aa9f84.png">
 </p>
 
-# uptick node setup for Testnet — uptick_7000-2
+# uptick node setup for Mainnet — uptick_117-1
 
 Official documentation:
 >- [Validator setup instructions](https://docs.uptick.network/testnet/)
@@ -129,7 +129,7 @@ uptickd tx staking create-validator \
   --min-self-delegation "1" \
   --pubkey  $(uptickd tendermint show-validator) \
   --moniker superjax \
-  --chain-id $UPTICK_CHAIN_ID \
+  --chain-id uptick_117-1 \
   --gas=auto
 ```
 
@@ -274,7 +274,7 @@ uptickd tx distribution withdraw-rewards $UPTICK_VALOPER_ADDRESS --from=$WALLET 
 Edit validator
 ```
 uptickd tx staking edit-validator \
-  --moniker=$NODENAME \
+  --moniker=superjax \
   --identity=<your_keybase_id> \
   --website="<your_website>" \
   --details="<your_validator_description>" \
