@@ -77,12 +77,12 @@ N/A
 ### Create wallet
 To create new wallet you can use command below. Don’t forget to save the mnemonic
 ```
-uptickd keys add $WALLET
+uptickd keys add wallet
 ```
 
 (OPTIONAL) To recover your wallet using seed phrase
 ```
-uptickd keys add $WALLET --recover
+uptickd keys add wallet --recover
 ```
 
 To get current list of wallets
@@ -122,13 +122,13 @@ To create your validator run command below
 ```
 uptickd tx staking create-validator \
   --amount 5000000000000000000auptick \
-  --from $WALLET \
+  --from wallet \
   --commission-max-change-rate "0.01" \
   --commission-max-rate "0.2" \
-  --commission-rate "0.07" \
+  --commission-rate "0.1" \
   --min-self-delegation "1" \
   --pubkey  $(uptickd tendermint show-validator) \
-  --moniker $NODENAME \
+  --moniker superjax \
   --chain-id $UPTICK_CHAIN_ID \
   --gas=auto
 ```
