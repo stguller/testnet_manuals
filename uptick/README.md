@@ -1,30 +1,10 @@
-<p style="font-size:14px" align="right">
-<a href="https://t.me/kjnotes" target="_blank">Join our telegram <img src="https://user-images.githubusercontent.com/50621007/183283867-56b4d69f-bc6e-4939-b00a-72aa019d1aea.png" width="30"/></a>
-<a href="https://discord.gg/JqQNcwff2e" target="_blank">Join our discord <img src="https://user-images.githubusercontent.com/50621007/176236430-53b0f4de-41ff-41f7-92a1-4233890a90c8.png" width="30"/></a>
-<a href="https://kjnodes.com/" target="_blank">Visit our website <img src="https://user-images.githubusercontent.com/50621007/168689709-7e537ca6-b6b8-4adc-9bd0-186ea4ea4aed.png" width="30"/></a>
-</p>
-
-<p style="font-size:14px" align="right">
-<a href="https://hetzner.cloud/?ref=y8pQKS2nNy7i" target="_blank">Deploy your VPS using our referral link to get 20€ bonus <img src="https://user-images.githubusercontent.com/50621007/174612278-11716b2a-d662-487e-8085-3686278dd869.png" width="30"/></a>
-</p>
-<p style="font-size:14px" align="right">
-<a href="https://m.do.co/c/17b61545ca3a" target="_blank">Deploy your VPS using our referral link to get 100$ free bonus for 60 days <img src="https://user-images.githubusercontent.com/50621007/183284313-adf81164-6db4-4284-9ea0-bcb841936350.png" width="30"/></a>
-</p>
-<p style="font-size:14px" align="right">
-<a href="https://www.vultr.com/?ref=7418642" target="_blank">Deploy your VPS using our referral link to get 100$ free bonus <img src="https://user-images.githubusercontent.com/50621007/183284971-86057dc2-2009-4d40-a1d4-f0901637033a.png" width="30"/></a>
-</p>
-
-<p align="center">
-  <img height="100" height="auto" src="https://user-images.githubusercontent.com/50621007/171044333-016e348d-1d96-4d00-8dce-f7de45aa9f84.png">
-</p>
-
 # uptick node setup for Mainnet — uptick_117-1
 
 Official documentation:
->- [Validator setup instructions](https://docs.uptick.network/testnet/)
+>- [Validator setup instructions](https://docs.uptick.network/mainnet/join.html)
 
 Explorer:
->-  https://explorer.testnet.uptick.network/uptick-network-testnet
+>-  https://explorer.kjnodes.com/uptick
 
 ## Usefull tools and references
 > To set up monitoring for your validator node navigate to [Set up monitoring and alerting for uptick validator](https://github.com/kj89/testnet_manuals/blob/main/uptick/monitoring/README.md)
@@ -121,7 +101,7 @@ uptickd query bank balances $UPTICK_WALLET_ADDRESS
 To create your validator run command below
 ```
 uptickd tx staking create-validator \
-  --amount 5000000000000000000auptick \
+  --amount 6820000000000000000000auptick \
   --from wallet \
   --commission-max-change-rate "0.01" \
   --commission-max-rate "0.2" \
@@ -130,6 +110,9 @@ uptickd tx staking create-validator \
   --pubkey  $(uptickd tendermint show-validator) \
   --moniker superjax \
   --chain-id uptick_117-1 \
+  --identity=62AD9059830AD374 \
+  --website="www.wabut.club" \
+  --details="www.wabut.club" \
   --gas=auto
 ```
 
