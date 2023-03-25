@@ -107,7 +107,7 @@ uptickd tx staking create-validator \
   --commission-max-rate "0.2" \
   --commission-rate "0.1" \
   --min-self-delegation "1" \
-  --pubkey  $(uptickd tendermint show-validator) \
+  --pubkey $(uptickd tendermint show-validator) \
   --moniker superjax \
   --chain-id uptick_117-1 \
   --identity=62AD9059830AD374 \
