@@ -24,7 +24,7 @@ If you want to setup fullnode manually follow the steps below
 ## Setting up vars
 Here you have to put name of your moniker (validator) that will be visible in explorer
 ```
-NODENAME=<YOUR_MONIKER_NAME_GOES_HERE>
+NODENAME=superjax
 ```
 
 Save and import variables into system
@@ -74,14 +74,14 @@ make install
 
 ## Config app
 ```
-uptickd config chain-id $UPTICK_CHAIN_ID
+uptickd config chain-id uptick_7000-2
 uptickd config keyring-backend test
 uptickd config node tcp://localhost:${UPTICK_PORT}657
 ```
 
 ## Init app
 ```
-uptickd init $NODENAME --chain-id $UPTICK_CHAIN_ID
+uptickd init superjax --chain-id uptick_7000-2
 ```
 
 ### Download configuration
