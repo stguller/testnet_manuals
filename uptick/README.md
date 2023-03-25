@@ -113,6 +113,7 @@ uptickd tx staking create-validator \
   --identity=62AD9059830AD374 \
   --website="www.wabut.club" \
   --details="www.wabut.club" \
+  --fees 0auptick \
   --gas=auto
 ```
 
