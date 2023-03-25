@@ -1,0 +1,15 @@
+{
+    "chain_name": "CARDCHAIN-TESTNET",
+    "api": ["https://cardchain-testnet.api.kjnodes.com"],
+    "rpc": ["https://cardchain-testnet.rpc.kjnodes.com"],
+    "coin_type": 118,
+    "min_tx_fee": 200,
+    "addr_prefix": "cc",
+    "logo": "https://raw.githubusercontent.com/kj89/cosmos-images/main/logos/cardchain.png",
+    "assets": [{
+        "base": "ubpf",
+        "symbol": "CARDCHAIN",
+        "exponent": 6,
+        "logo": "https://raw.githubusercontent.com/kj89/cosmos-images/main/logos/cardchain.png"
+    }]
+}

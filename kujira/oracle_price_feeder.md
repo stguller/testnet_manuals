@@ -82,7 +82,7 @@ kujirad tx oracle set-feeder $KUJIRA_ORACLE_ADDRESS --from $WALLET --fees 250uku
 ```
 mkdir $HOME/.kujira-price-feeder
 sudo tee $HOME/.kujira-price-feeder/config.toml > /dev/null <<EOF
-gas_adjustment = 1.5
+gas_adjustment = 1.7
 gas_prices = "0.00125ukuji"
 enable_server = true
 enable_voter = true
@@ -99,14 +99,55 @@ base = "USDT"
 threshold = "2"
 
 [[currency_pairs]]
-base = "ATOM"
-providers = ["binance", "kraken", "osmosis"]
+base = "USDT"
+providers = ["binance", "kraken", "coinbase"]
 quote = "USD"
 
 [[currency_pairs]]
-base = "DOT"
-providers = ["binance", "kraken", "coinbase"]
+base = "USDC"
+providers = ["binance", "kraken"]
 quote = "USD"
+
+[[currency_pairs]]
+base = "BNB"
+providers = ["binance"]
+quote = "USD"
+
+[[currency_pairs]]
+base = "USDC"
+providers = ["okx", "coinbase"]
+quote = "USDT"
+
+[[currency_pairs]]
+base = "BNB"
+providers = ["huobi", "okx"]
+quote = "USDT"
+
+[[currency_pairs]]
+base = "ATOM"
+providers = ["binance", "kraken", "coinbase", "osmosis"]
+quote = "USD"
+
+[[currency_pairs]]
+base = "BTC"
+providers = ["huobi"]
+quote = "USDT"
+
+[[currency_pairs]]
+base = "BTC"
+providers = ["binance", "coinbase"]
+quote = "USD"
+
+[[currency_pairs]]
+base = "LUNA"
+providers = ["gate", "okx"]
+quote = "USDT"
+
+[[currency_pairs]]
+base = "LUNA"
+providers = ["mexc"]
+quote = "USDC"
+
 
 [[currency_pairs]]
 base = "ETH"
@@ -114,7 +155,7 @@ providers = ["binance", "kraken", "coinbase"]
 quote = "USD"
 
 [[currency_pairs]]
-base = "BTC"
+base = "DOT"
 providers = ["binance", "kraken", "coinbase"]
 quote = "USD"
 
@@ -144,7 +185,7 @@ type = "prometheus"
 
 [[provider_endpoints]]
 name = "binance"
-rest = "https://api1.binance.com"
+rest = "https://api.binance.com"
 websocket = "stream.binance.com:9443"
 EOF
 ```

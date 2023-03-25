@@ -1,0 +1,15 @@
+{
+    "chain_name": "PALOMA-TESTNET",
+    "api": ["https://paloma-testnet.api.kjnodes.com"],
+    "rpc": ["https://paloma-testnet.rpc.kjnodes.com"],
+    "coin_type": 118,
+    "min_tx_fee": 200,
+    "addr_prefix": "paloma",
+    "logo": "https://raw.githubusercontent.com/kj89/cosmos-images/main/logos/paloma.png",
+    "assets": [{
+        "base": "ugrain",
+        "symbol": "GRAIN",
+        "exponent": 6,
+        "logo": "https://raw.githubusercontent.com/kj89/cosmos-images/main/logos/paloma.png"
+    }]
+}

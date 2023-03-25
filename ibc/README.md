@@ -32,11 +32,6 @@ Before setting up relayer you need to make sure you already have:
 sudo apt update && sudo apt upgrade -y
 ```
 
-## Install dependencies
-```
-sudo apt install unzip -y
-```
-
 ## Make hermes home dir
 ```
 mkdir $HOME/.hermes
@@ -44,9 +39,9 @@ mkdir $HOME/.hermes
 
 ## Download Hermes
 ```
-wget https://github.com/informalsystems/ibc-rs/releases/download/v1.0.0/hermes-v1.0.0-x86_64-unknown-linux-gnu.tar.gz
+wget -nv https://github.com/informalsystems/hermes/releases/download/v1.2.0/hermes-v1.2.0-x86_64-unknown-linux-gnu.tar.gz
 mkdir -p $HOME/.hermes/bin
-tar -C $HOME/.hermes/bin/ -vxzf hermes-v1.0.0-x86_64-unknown-linux-gnu.tar.gz
+tar -C $HOME/.hermes/bin/ -vxzf hermes-v1.2.0-x86_64-unknown-linux-gnu.tar.gz
 echo 'export PATH="$HOME/.hermes/bin:$PATH"' >> $HOME/.bash_profile
 source $HOME/.bash_profile
 ```
@@ -64,7 +59,7 @@ log_level = 'info'
 
 # Specify the client mode.
 [mode.clients]
-enabled = false
+enabled = true
 refresh = true
 misbehaviour = false
 
@@ -79,9 +74,9 @@ enabled = false
 # Specify the packets mode.
 [mode.packets]
 enabled = true
-clear_interval = 200
+clear_interval = 100
 clear_on_start = true
-tx_confirmation = true
+tx_confirmation = false
 
 # The REST section defines parameters for Hermes' built-in RESTful API.
 # https://hermes.informal.systems/rest.html
@@ -95,189 +90,26 @@ enabled = true
 host = '0.0.0.0'
 port = 3001
 
-### OSMOSIS ###
-[[chains]]
-id = 'osmosis-1'
-rpc_addr = 'http://127.0.0.1:29657'
-grpc_addr = 'http://127.0.0.1:29090'
-websocket_addr = 'ws://127.0.0.1:29657/websocket'
-
-rpc_timeout = '20s'
-account_prefix = 'osmo'
-key_name = 'relayer'
-address_type = { derivation = 'cosmos' }
-store_prefix = 'ibc'
-default_gas = 400000
-max_gas = 120000000
-gas_price = { price = 0.000, denom = 'uosmo' }
-gas_multiplier = 1.5
-max_msg_num = 30
-max_tx_size = 1800000
-clock_drift = '15s'
-max_block_time = '10s'
-trusting_period = '7days'
-memo_prefix = 'Relayed by kjnodes'
-trust_threshold = { numerator = '1', denominator = '3' }
-
-[chains.packet_filter]
-policy = 'allow'
-list = [
-#  ['transfer', 'channel-0'], # Cosmos
-  ['transfer', 'channel-144'], # Gravity
-  ['transfer', 'channel-259'], # Kujira
-#  ['transfer', 'channel-320'], # Agoric
-  ['transfer', 'channel-326'], # Stride
-  ['transfer', 'channel-362'], # Teritori
-]
-
-### STRIDE ###
-[[chains]]
-id = 'stride-1'
-rpc_addr = 'http://127.0.0.1:16657'
-grpc_addr = 'http://127.0.0.1:16090'
-websocket_addr = 'ws://127.0.0.1:16657/websocket'
-
-rpc_timeout = '20s'
-account_prefix = 'stride'
-key_name = 'relayer'
-store_prefix = 'ibc'
-address_type = { derivation = 'cosmos' }
-default_gas = 100000
-max_gas = 1000000
-gas_price = { price = 0.000, denom = 'ustrd' }
-gas_multiplier = 1.2
-max_msg_num = 30
-max_tx_size = 1800000
-clock_drift = '15s'
-max_block_time = '10s'
-trusting_period = '7days'
-memo_prefix = 'Relayed by kjnodes'
-trust_threshold = { numerator = '1', denominator = '3' }
-
-[chains.packet_filter]
-policy = 'allow'
-list = [
-  ['transfer', 'channel-0'], # Cosmos
-  ['transfer', 'channel-5'], # Osmosis
-#  ['transfer', 'channel-8'], # Kujira
-]
-
-### KUJIRA ###
-[[chains]]
-id = 'kaiyo-1'
-rpc_addr = 'http://127.0.0.1:13657'
-grpc_addr = 'http://127.0.0.1:13090'
-websocket_addr = 'ws://127.0.0.1:13657/websocket'
-
-rpc_timeout = '20s'
-account_prefix = 'kujira'
-key_name = 'relayer'
-address_type = { derivation = 'cosmos' }
-store_prefix = 'ibc'
-default_gas = 100000
-max_gas = 3500000
-gas_price = { price = 0.00125, denom = 'ukuji' }
-gas_multiplier = 1.2
-max_msg_num = 30
-max_tx_size = 2000000
-clock_drift = '45s'
-max_block_time = '10s'
-trusting_period = '10days'
-memo_prefix = 'Relayed by kjnodes'
-trust_threshold = { numerator = '1', denominator = '3' }
-
-[chains.packet_filter]
-policy = 'allow'
-list = [
-  ['transfer', 'channel-0'], # Cosmos
-  ['transfer', 'channel-3'], # Osmosis
-#  ['transfer', 'channel-32'], # Stride
-]
-
-### AGORIC ###
-[[chains]]
-id = 'agoric-3'
-rpc_addr = 'http://127.0.0.1:27657'
-grpc_addr = 'http://127.0.0.1:27090'
-websocket_addr = 'ws://127.0.0.1:27657/websocket'
-
-rpc_timeout = '20s'
-account_prefix = 'agoric'
-key_name = 'relayer'
-address_type = { derivation = 'cosmos' }
-store_prefix = 'ibc'
-default_gas = 300000
-max_gas =  1000000
-gas_price = { price = 0.000, denom = 'ubld' }
-gas_multiplier = 1.2
-max_msg_num = 30
-max_tx_size = 1800000
-clock_drift = '15s'
-max_block_time = '10s'
-trusting_period = '14days'
-memo_prefix = 'Relayed by kjnodes'
-trust_threshold = { numerator = '1', denominator = '3' }
-
-[chains.packet_filter]
-policy = 'allow'
-list = [
-  ['transfer', 'channel-0'], # Cosmos
-  ['transfer', 'channel-1'], # Osmosis
-  ['transfer', 'channel-4'], # Gravity
-]
-
-### GRAVITY BRIDGE ###
-[[chains]]
-id = 'gravity-bridge-3'
-rpc_addr = 'http://127.0.0.1:26657'
-grpc_addr = 'http://127.0.0.1:26090'
-websocket_addr = 'ws://127.0.0.1:26657/websocket'
-
-rpc_timeout = '20s'
-account_prefix = 'gravity'
-key_name = 'relayer'
-address_type = { derivation = 'cosmos' }
-store_prefix = 'ibc'
-default_gas = 300000
-max_gas = 5000000
-gas_price = { price = 0.000, denom = 'ugraviton' }
-gas_multiplier = 1.4
-max_msg_num = 30
-max_tx_size = 1800000
-clock_drift = '15s'
-max_block_time = '10s'
-trusting_period = '7days'
-memo_prefix = 'Relayed by kjnodes'
-trust_threshold = { numerator = '1', denominator = '3' }
-
-[chains.packet_filter]
-policy = 'allow'
-list = [
-  ['transfer', 'channel-10'], # Osmosis
-  ['transfer', 'channel-17'], # Cosmos
-  ['transfer', 'channel-91'], # Agoric
-]
-
-### COSMOS ###
+############################################################### COSMOS ###############################################################
 [[chains]]
 id = 'cosmoshub-4'
 rpc_addr = 'http://127.0.0.1:34657'
 grpc_addr = 'http://127.0.0.1:34090'
 websocket_addr = 'ws://127.0.0.1:34657/websocket'
 
-rpc_timeout = '20s'
+rpc_timeout = '30s'
 account_prefix = 'cosmos'
 key_name = 'relayer'
 address_type = { derivation = 'cosmos' }
 store_prefix = 'ibc'
 default_gas = 300000
 max_gas = 3500000
-gas_price = { price = 0.0025, denom = 'uatom' }
+gas_price = { price = 0.00005, denom = 'uatom' }
 gas_multiplier = 1.3
 max_msg_num = 30
-max_tx_size = 180000
-clock_drift = '10s'
-max_block_time = '10s'
+max_tx_size = 800000
+clock_drift = '5s'
+max_block_time = '30s'
 trusting_period = '14days'
 memo_prefix = 'Relayed by kjnodes'
 trust_threshold = { numerator = '1', denominator = '3' }
@@ -292,27 +124,221 @@ list = [
   ['transfer', 'channel-391'], # Stride
 ]
 
+############################################################### OSMOSIS ###############################################################
+[[chains]]
+id = 'osmosis-1'
+rpc_addr = 'http://127.0.0.1:29657'
+grpc_addr = 'http://127.0.0.1:29090'
+websocket_addr = 'ws://127.0.0.1:29657/websocket'
 
-### TERITORI ###
+rpc_timeout = '30s'
+account_prefix = 'osmo'
+key_name = 'relayer'
+address_type = { derivation = 'cosmos' }
+store_prefix = 'ibc'
+default_gas = 400000
+max_gas = 120000000
+gas_price = { price = 0.0025, denom = 'uosmo' }
+gas_multiplier = 1.5
+max_msg_num = 30
+max_tx_size = 800000
+clock_drift = '5s'
+max_block_time = '30s'
+trusting_period = '7days'
+memo_prefix = 'Relayed by kjnodes'
+trust_threshold = { numerator = '1', denominator = '3' }
+
+[chains.packet_filter]
+policy = 'allow'
+list = [
+#  ['transfer', 'channel-0'], # Cosmos
+  ['transfer', 'channel-144'], # Gravity
+  ['transfer', 'channel-259'], # Kujira
+  ['transfer', 'channel-320'], # Agoric
+  ['transfer', 'channel-326'], # Stride
+  ['transfer', 'channel-362'], # Teritori
+  ['transfer', 'channel-412'], # Jackal
+]
+
+############################################################### GRAVITY BRIDGE ###############################################################
+[[chains]]
+id = 'gravity-bridge-3'
+rpc_addr = 'http://127.0.0.1:26657'
+grpc_addr = 'http://127.0.0.1:26090'
+websocket_addr = 'ws://127.0.0.1:26657/websocket'
+
+rpc_timeout = '30s'
+account_prefix = 'gravity'
+key_name = 'relayer'
+address_type = { derivation = 'cosmos' }
+store_prefix = 'ibc'
+default_gas = 300000
+max_gas = 5000000
+gas_price = { price = 0.0261, denom = 'ugraviton' }
+gas_multiplier = 1.4
+max_msg_num = 30
+max_tx_size = 800000
+clock_drift = '5s'
+max_block_time = '30s'
+trusting_period = '7days'
+memo_prefix = 'Relayed by kjnodes'
+trust_threshold = { numerator = '1', denominator = '3' }
+
+[chains.packet_filter]
+policy = 'allow'
+list = [
+  ['transfer', 'channel-10'], # Osmosis
+  ['transfer', 'channel-17'], # Cosmos
+  ['transfer', 'channel-91'], # Agoric
+]
+
+############################################################### STRIDE ###############################################################
+[[chains]]
+id = 'stride-1'
+rpc_addr = 'http://127.0.0.1:16657'
+grpc_addr = 'http://127.0.0.1:16090'
+websocket_addr = 'ws://127.0.0.1:16657/websocket'
+
+rpc_timeout = '30s'
+account_prefix = 'stride'
+key_name = 'relayer'
+store_prefix = 'ibc'
+address_type = { derivation = 'cosmos' }
+default_gas = 100000
+max_gas = 1000000
+gas_price = { price = 0.000, denom = 'ustrd' }
+gas_multiplier = 1.2
+max_msg_num = 30
+max_tx_size = 800000
+clock_drift = '5s'
+max_block_time = '30s'
+trusting_period = '7days'
+memo_prefix = 'Relayed by kjnodes'
+trust_threshold = { numerator = '1', denominator = '3' }
+
+[chains.packet_filter]
+policy = 'allow'
+list = [
+  ['transfer', 'channel-0'], # Cosmos
+  ['transfer', 'channel-5'], # Osmosis
+#  ['transfer', 'channel-8'], # Kujira
+]
+
+############################################################### KUJIRA ###############################################################
+[[chains]]
+id = 'kaiyo-1'
+rpc_addr = 'http://127.0.0.1:13657'
+grpc_addr = 'http://127.0.0.1:13090'
+websocket_addr = 'ws://127.0.0.1:13657/websocket'
+fee_granter = 'kujira1vkje22mayn72r0a7kna6agv0sqm6k94ry9k6dd'
+
+rpc_timeout = '30s'
+account_prefix = 'kujira'
+key_name = 'relayer'
+address_type = { derivation = 'cosmos' }
+store_prefix = 'ibc'
+default_gas = 1000000
+max_gas = 35000000
+gas_price = { price = 0.00125, denom = 'ukuji' }
+gas_multiplier = 1.2
+max_msg_num = 30
+max_tx_size = 800000
+clock_drift = '5s'
+max_block_time = '30s'
+trusting_period = '10days'
+memo_prefix = 'Relayed by kjnodes'
+trust_threshold = { numerator = '1', denominator = '3' }
+
+[chains.packet_filter]
+policy = 'allow'
+list = [
+  ['transfer', 'channel-0'], # Cosmos
+  ['transfer', 'channel-3'], # Osmosis
+#  ['transfer', 'channel-32'], # Stride
+]
+
+############################################################### AGORIC ###############################################################
+[[chains]]
+id = 'agoric-3'
+rpc_addr = 'http://127.0.0.1:27657'
+grpc_addr = 'http://127.0.0.1:27090'
+websocket_addr = 'ws://127.0.0.1:27657/websocket'
+
+rpc_timeout = '30s'
+account_prefix = 'agoric'
+key_name = 'relayer'
+address_type = { derivation = 'cosmos' }
+store_prefix = 'ibc'
+default_gas = 500000
+max_gas =  15000000
+gas_price = { price = 0.001, denom = 'ubld' }
+gas_multiplier = 1.7
+max_msg_num = 30
+max_tx_size = 800000
+clock_drift = '5s'
+max_block_time = '30s'
+trusting_period = '14days'
+memo_prefix = 'Relayed by kjnodes'
+trust_threshold = { numerator = '1', denominator = '3' }
+
+[chains.packet_filter]
+policy = 'allow'
+list = [
+#  ['transfer', 'channel-0'], # Cosmos
+  ['transfer', 'channel-1'], # Osmosis
+  ['transfer', 'channel-4'], # Gravity
+]
+
+############################################################### TERITORI ###############################################################
 [[chains]]
 id = 'teritori-1'
 rpc_addr = 'http://127.0.0.1:19657'
 grpc_addr = 'http://127.0.0.1:19090'
 websocket_addr = 'ws://127.0.0.1:19657/websocket'
 
-rpc_timeout = '20s'
+rpc_timeout = '30s'
 account_prefix = 'tori'
 key_name = 'relayer'
 address_type = { derivation = 'cosmos' }
 store_prefix = 'ibc'
-default_gas = 100000
-max_gas = 3500000
-gas_price = { price = 0.000, denom = 'utori' }
+default_gas = 1000000
+max_gas = 35000000
+gas_price = { price = 0.01, denom = 'utori' }
 gas_multiplier = 1.2
 max_msg_num = 30
-max_tx_size = 1800000
-clock_drift = '15s'
-max_block_time = '10s'
+max_tx_size = 800000
+clock_drift = '5s'
+max_block_time = '30s'
+trusting_period = '7days'
+memo_prefix = 'Relayed by kjnodes'
+trust_threshold = { numerator = '1', denominator = '3' }
+
+[chains.packet_filter]
+policy = 'allow'
+list = [
+  ['transfer', 'channel-0'], # Osmosis
+]
+
+############################################################### JACKAL ###############################################################
+[[chains]]
+id = 'jackal-1'
+rpc_addr = 'http://127.0.0.1:37657'
+grpc_addr = 'http://127.0.0.1:37090'
+websocket_addr = 'ws://127.0.0.1:37657/websocket'
+
+rpc_timeout = '30s'
+account_prefix = 'jkl'
+key_name = 'relayer'
+address_type = { derivation = 'cosmos' }
+store_prefix = 'ibc'
+default_gas = 1000000
+max_gas = 35000000
+gas_price = { price = 0.0005, denom = 'ujkl' }
+gas_multiplier = 1.2
+max_msg_num = 30
+max_tx_size = 800000
+clock_drift = '5s'
+max_block_time = '30s'
 trusting_period = '7days'
 memo_prefix = 'Relayed by kjnodes'
 trust_threshold = { numerator = '1', denominator = '3' }
@@ -354,13 +380,12 @@ SUCCESS performed health check for all chains in the config
 ## Recover wallets using mnemonic files
 Before you proceed with this step, please make sure you have created and funded with tokens seperate wallets on each chain
 ```
- MNEMONIC='word scare connect prison angry jazz help panther museum hope antenna all voyage fame shiver sing life zone era abstract busy bamboo own dune'
+MNEMONIC='word scare connect prison angry jazz help panther museum hope antenna all voyage fame shiver sing life zone era abstract busy bamboo own dune'
 CHAIN_ID=teritori-1
-sudo tee $HOME/.hermes/${CHAIN_ID}.mnemonic > /dev/null <<EOF
-${MNEMONIC}
-EOF
-hermes keys add --chain ${CHAIN_ID} --mnemonic-file $HOME/.hermes/${CHAIN_ID}.mnemonic
-rm $HOME/.hermes/${CHAIN_ID}.mnemonic
+
+echo "$MNEMONIC" > $HOME/.hermes.mnemonic
+hermes keys add --chain "$CHAIN_ID" --mnemonic-file $HOME/.hermes.mnemonic
+rm $HOME/.hermes.mnemonic
 ```
 
 Successful output should look like:

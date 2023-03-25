@@ -18,7 +18,7 @@
   <img height="100" height="auto" src="https://user-images.githubusercontent.com/50621007/171044333-016e348d-1d96-4d00-8dce-f7de45aa9f84.png">
 </p>
 
-# uptick node setup for Testnet — uptick_7776-1
+# uptick node setup for Testnet — uptick_7000-2
 
 Official documentation:
 >- [Validator setup instructions](https://docs.uptick.network/testnet/)
@@ -71,17 +71,7 @@ uptickd status 2>&1 | jq .SyncInfo
 ### (OPTIONAL) State Sync
 You can state sync your node in minutes by running commands below. Special thanks to `polkachu | polkachu.com#1249`
 ```
-SNAP_RPC1="http://peer0.testnet.uptick.network:26657" \
-&& SNAP_RPC2="http://peer1.testnet.uptick.network:26657"
-LATEST_HEIGHT=$(curl -s $SNAP_RPC2/block | jq -r .result.block.header.height) \
-&& BLOCK_HEIGHT=$((LATEST_HEIGHT - 2000)) \
-&& TRUST_HASH=$(curl -s "$SNAP_RPC2/block?height=$BLOCK_HEIGHT" | jq -r .result.block_id.hash)
-sed -i.bak -E "s|^(enable[[:space:]]+=[[:space:]]+).*$|\1true| ; \
-s|^(rpc_servers[[:space:]]+=[[:space:]]+).*$|\1\"$SNAP_RPC1,$SNAP_RPC2\"| ; \
-s|^(trust_height[[:space:]]+=[[:space:]]+).*$|\1$BLOCK_HEIGHT| ; \
-s|^(trust_hash[[:space:]]+=[[:space:]]+).*$|\1\"$TRUST_HASH\"|" $HOME/.uptickd/config/config.toml
-uptickd tendermint unsafe-reset-all --home $HOME/.uptickd
-sudo systemctl restart uptickd && journalctl -fu uptickd -o cat
+N/A
 ```
 
 ### Create wallet
@@ -131,7 +121,7 @@ uptickd query bank balances $UPTICK_WALLET_ADDRESS
 To create your validator run command below
 ```
 uptickd tx staking create-validator \
-  --amount 1000000auptick \
+  --amount 5000000000000000000auptick \
   --from $WALLET \
   --commission-max-change-rate "0.01" \
   --commission-max-rate "0.2" \
@@ -139,7 +129,8 @@ uptickd tx staking create-validator \
   --min-self-delegation "1" \
   --pubkey  $(uptickd tendermint show-validator) \
   --moniker $NODENAME \
-  --chain-id $UPTICK_CHAIN_ID
+  --chain-id $UPTICK_CHAIN_ID \
+  --gas=auto
 ```
 
 ## Security
@@ -250,23 +241,23 @@ uptickd query bank balances $UPTICK_WALLET_ADDRESS
 
 Transfer funds
 ```
-uptickd tx bank send $UPTICK_WALLET_ADDRESS <TO_UPTICK_WALLET_ADDRESS> 10000000auptick
+uptickd tx bank send $UPTICK_WALLET_ADDRESS <TO_UPTICK_WALLET_ADDRESS> 5000000000000000000auptick --gas=auto
 ```
 
 ### Voting
 ```
-uptickd tx gov vote 1 yes --from $WALLET --chain-id=$UPTICK_CHAIN_ID
+uptickd tx gov vote 1 yes --from $WALLET --chain-id=$UPTICK_CHAIN_ID --gas=auto
 ```
 
 ### Staking, Delegation and Rewards
 Delegate stake
 ```
-uptickd tx staking delegate $UPTICK_VALOPER_ADDRESS 10000000auptick --from=$WALLET --chain-id=$UPTICK_CHAIN_ID --gas=auto
+uptickd tx staking delegate $UPTICK_VALOPER_ADDRESS 5000000000000000000auptick --from=$WALLET --chain-id=$UPTICK_CHAIN_ID --gas=auto
 ```
 
 Redelegate stake from validator to another validator
 ```
-uptickd tx staking redelegate <srcValidatorAddress> <destValidatorAddress> 10000000auptick --from=$WALLET --chain-id=$UPTICK_CHAIN_ID --gas=auto
+uptickd tx staking redelegate <srcValidatorAddress> <destValidatorAddress> 5000000000000000000auptick --from=$WALLET --chain-id=$UPTICK_CHAIN_ID --gas=auto
 ```
 
 Withdraw all rewards
@@ -276,7 +267,7 @@ uptickd tx distribution withdraw-all-rewards --from=$WALLET --chain-id=$UPTICK_C
 
 Withdraw rewards with commision
 ```
-uptickd tx distribution withdraw-rewards $UPTICK_VALOPER_ADDRESS --from=$WALLET --commission --chain-id=$UPTICK_CHAIN_ID
+uptickd tx distribution withdraw-rewards $UPTICK_VALOPER_ADDRESS --from=$WALLET --commission --chain-id=$UPTICK_CHAIN_ID --gas=auto
 ```
 
 ### Validator management
@@ -288,7 +279,8 @@ uptickd tx staking edit-validator \
   --website="<your_website>" \
   --details="<your_validator_description>" \
   --chain-id=$UPTICK_CHAIN_ID \
-  --from=$WALLET
+  --from=$WALLET \
+  --gas=auto
 ```
 
 Unjail validator

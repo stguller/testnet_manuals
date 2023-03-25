@@ -51,7 +51,7 @@ wget "https://golang.org/dl/go$ver.linux-amd64.tar.gz"
 sudo rm -rf /usr/local/go
 sudo tar -C /usr/local -xzf "go$ver.linux-amd64.tar.gz"
 rm "go$ver.linux-amd64.tar.gz"
-echo "export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin" >> ~/.bash_profile
+echo 'export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin' >> ~/.bash_profile
 source ~/.bash_profile
 ```
 
@@ -101,7 +101,8 @@ quicksilverd gentx $WALLET 50000000uqck \
 --commission-rate=0.05 \
 --identity=1C5ACD2EEF363C3A \
 --website="http://kjnodes.com" \
---details="Providing professional staking services with high performance and availability"
+--details="Providing professional staking services with high performance and availability" \
+--security-contact="security@kjnodes.com"
 ```
 
 ## Things you have to backup

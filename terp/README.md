@@ -18,13 +18,13 @@
   <img height="100" height="auto" src="https://user-images.githubusercontent.com/50621007/192942503-d3df529e-1ca8-465e-a110-5d4a0c4f438e.png">
 </p>
 
-# terp node setup for testnet — athena-1
+# terp node setup for testnet — athena-2
 
 Official documentation:
 >- [Validator setup instructions](https://github.com/terpnetwork/terp-core)
 
 Explorer:
->-  https://explorer.kjnodes.com/terp
+>-  https://explorer.kjnodes.com/terp-testnet
 
 ## Usefull tools and references
 > To set up monitoring for your validator node navigate to [Set up monitoring and alerting for terp validator](https://github.com/kj89/testnet_manuals/blob/main/terp/monitoring/README.md)

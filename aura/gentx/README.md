@@ -17,101 +17,89 @@
   <img height="100" height="auto" src="https://user-images.githubusercontent.com/50621007/177979901-4ac785e2-08c3-4d61-83df-b451a2ed9e68.png">
 </p>
 
-# Generate Aura Euphoria Testnet Gentx
+# Generate Aura Miannet gentx
 
 ## Setting up vars
-Here you have to put name of your moniker (validator) that will be visible in explorer
+Set up your Moniker (validator name) and EVM address
 ```
 NODENAME=<YOUR_MONIKER_NAME_GOES_HERE>
 ```
 
-Save and import variables into system
+## Update packages and dependancies
 ```
-echo "export NODENAME=$NODENAME" >> $HOME/.bash_profile
-echo "export WALLET=wallet" >> $HOME/.bash_profile
-echo "export CHAIN_ID=euphoria-1" >> $HOME/.bash_profile
-source $HOME/.bash_profile
-```
-
-## Update packages
-```
-sudo apt update && sudo apt upgrade -y
-```
-
-## Install dependencies
-```
-sudo apt-get install make build-essential gcc git jq chrony -y
+sudo apt -q update
+sudo apt -qy install curl git jq lz4 build-essential
+sudo apt -qy upgrade
 ```
 
 ## Install go
 ```
-ver="1.18.2"
-cd $HOME
-wget "https://golang.org/dl/go$ver.linux-amd64.tar.gz"
 sudo rm -rf /usr/local/go
-sudo tar -C /usr/local -xzf "go$ver.linux-amd64.tar.gz"
-rm "go$ver.linux-amd64.tar.gz"
-echo "export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin" >> ~/.bash_profile
-source ~/.bash_profile
+curl -Ls https://go.dev/dl/go1.19.6.linux-amd64.tar.gz | sudo tar -xzf - -C /usr/local
+eval $(echo 'export PATH=$PATH:/usr/local/go/bin' | sudo tee /etc/profile.d/golang.sh)
+eval $(echo 'export PATH=$PATH:$HOME/go/bin' | tee -a $HOME/.profile)
 ```
 
 ## Download and install binaries
 ```
-git clone https://github.com/aura-nw/aura && cd aura
-git checkout euphoria_4027003
+cd $HOME
+git clone https://github.com/aura-nw/aura.git
+cd aura
+git checkout Aura_v0.4.3
 make install
 ```
 
 ## Config app
 ```
-aurad config chain-id $CHAIN_ID
+aurad config chain-id xstaxy-1
 aurad config keyring-backend test
 ```
 
 ## Init node
 ```
-aurad init $NODENAME --chain-id $CHAIN_ID
+aurad init $NODENAME --chain-id xstaxy-1
 ```
 
-## Recover or create new wallet for Euphoria Testnet
+## Recover or create new wallet for testnet
 Option 1 - generate new wallet
 ```
-aurad keys add $WALLET
+aurad keys add wallet
 ```
 
 Option 2 - recover existing wallet
 ```
-aurad keys add $WALLET --recover
+aurad keys add wallet --recover
 ```
 
 ## Add genesis account
 ```
-WALLET_ADDRESS=$(aurad keys show $WALLET -a)
-aurad add-genesis-account $WALLET_ADDRESS 3600000000ueaura
+WALLET_ADDRESS=$(aurad keys show wallet -a)
+aurad add-genesis-account $WALLET_ADDRESS 100000000uaura 
 ```
 
 ## Generate gentx
 ```
-aurad gentx $WALLET 3600000000ueaura \
---chain-id $CHAIN_ID \
+aurad gentx wallet 100000000uaura  \
+--chain-id xstaxy-1 \
 --moniker=$NODENAME \
+--identity="" \
+--website="" \
+--details="" \
 --commission-max-change-rate=0.01 \
---commission-max-rate=0.20 \
+--commission-max-rate=1.0 \
 --commission-rate=0.05 \
---details="<your_validator_description>" \
---security-contact="<your_email>" \
---website="<your_website>"
+--min-self-delegation=1 \
+--yes
 ```
 
 ## Things you have to backup
-- `12 word mnemonic` of your generated wallet
+- `24 word mnemonic` of your generated wallet
 - contents of `$HOME/.aura/config/*`
 
 ## Submit PR with Gentx
-1. Copy the contents of `$HOME/.aura/config/gentx/gentx-XXXXXXXX.json`
-2. Fork https://github.com/aura-nw/testnets
-3. Create a file `gentx-{VALIDATOR_NAME}.json` under the `testnets/euphoria-1/gentx` folder in the forked repo, paste the copied text into the file.
-4. Upload your logo file into `{VALOPER_ADDRESS}.png` under the `testnets/euphoria-1/logo` folder.
-5. Create a Pull Request to the main branch of the repository
+1. Copy the contents of ${HOME}/.aura/config/gentx/gentx-XXXXXXXX.json.
+2. Fork https://github.com/aura-nw/mainnet-artifacts
+3. Create a file `gentx-<VALIDATOR_NAME>.json` under the `xstaxy-1/gentxs` folder in the forked repo, paste the copied text into the file.
+4. Create a Pull Request to the main branch of the repository
 
 ### Await further instructions!

@@ -1,0 +1,15 @@
+{
+    "chain_name": "UPTICK-TESTNET",
+    "api": ["https://uptick-testnet.api.kjnodes.com"],
+    "rpc": ["https://uptick-testnet.rpc.kjnodes.com"],
+    "coin_type": 118,
+    "min_tx_fee": 200,
+    "addr_prefix": "uptick",
+    "logo": "https://raw.githubusercontent.com/kj89/cosmos-images/main/logos/uptick.png",
+    "assets": [{
+        "base": "uuptickx",
+        "symbol": "UPTICK",
+        "exponent": 18,
+        "logo": "https://raw.githubusercontent.com/kj89/cosmos-images/main/logos/uptick.png"
+    }]
+}

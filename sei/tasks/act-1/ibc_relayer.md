@@ -78,8 +78,8 @@ MNEMONIC_B='shaft pave alone age dolphin lab brave trick fatigue vivid social wo
 ## Download Hermes
 ```
 cd $HOME
-wget https://github.com/informalsystems/ibc-rs/releases/download/v1.0.0-rc.0/hermes-v1.0.0-rc.0-x86_64-unknown-linux-gnu.zip
-unzip hermes-v1.0.0-rc.0-x86_64-unknown-linux-gnu.zip
+wget https://github.com/informalsystems/hermes/releases/download/v1.2.0/hermes-v1.2.0-x86_64-unknown-linux-gnu.zip
+unzip hermes-v1.2.0-x86_64-unknown-linux-gnu.zip
 sudo mv hermes /usr/local/bin
 hermes version
 ```
@@ -192,14 +192,13 @@ Success: performed health check for all chains in the config
 ## Recover wallets using mnemonic files
 Before you proceed with this step, please make sure you have created and funded with tokens seperate wallets on each chain
 ```
-sudo tee $HOME/.hermes/${CHAIN_ID_A}.mnemonic > /dev/null <<EOF
-${MNEMONIC_A}
-EOF
-sudo tee $HOME/.hermes/${CHAIN_ID_B}.mnemonic > /dev/null <<EOF
-${MNEMONIC_B}
-EOF
-hermes keys add --chain ${CHAIN_ID_A} --mnemonic-file $HOME/.hermes/${CHAIN_ID_A}.mnemonic
-hermes keys add --chain ${CHAIN_ID_B} --mnemonic-file $HOME/.hermes/${CHAIN_ID_B}.mnemonic
+echo "$MNEMONIC_A" > $HOME/.hermes.a.mnemonic
+echo "$MNEMONIC_B" > $HOME/.hermes.b.mnemonic
+
+hermes keys add --chain "$CHAIN_ID_A" --mnemonic-file $HOME/.hermes.a.mnemonic
+hermes keys add --chain "$CHAIN_ID_B" --mnemonic-file $HOME/.hermes.b.mnemonic
+
+rm $HOME/.hermes.mnemonic $HOME/.hermes.b.mnemonic
 ```
 
 Successful output should look like:
